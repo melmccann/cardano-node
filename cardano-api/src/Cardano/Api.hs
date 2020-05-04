@@ -73,6 +73,7 @@ import qualified Cardano.Crypto.Signing as Crypto
 
 import           Cardano.Api.Types
 import           Cardano.Api.CBOR as X
+import           Cardano.Api.Convert as X
 import           Cardano.Api.Error as X
 import           Cardano.Api.View as X
 import           Cardano.Api.TxSubmit
