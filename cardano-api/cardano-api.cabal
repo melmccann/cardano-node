@@ -17,6 +17,7 @@ library
   exposed-modules:      Cardano.Api
 
   other-modules:        Cardano.Api.CBOR
+                        Cardano.Api.Convert
                         Cardano.Api.Error
                         Cardano.Api.TxSubmit
                         Cardano.Api.TxSubmit.ErrorRender
@@ -28,6 +29,7 @@ library
 
   build-depends:        base >=4.12 && <5
                       , aeson
+                      , attoparsec
                       , base16-bytestring
                       , bytestring
                       , cardano-binary
@@ -46,6 +48,7 @@ library
                       , formatting
                       , io-sim-classes
                       , iohk-monitoring
+                      , memory
                       , network
                       , network-mux
                       , ouroboros-consensus

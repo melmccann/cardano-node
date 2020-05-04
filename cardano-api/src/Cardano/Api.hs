@@ -88,24 +88,6 @@ import qualified Shelley.Spec.Ledger.Tx        as Shelley
 import qualified Shelley.Spec.Ledger.BaseTypes as Shelley
 
 
-addressFromHex :: Text -> Maybe Address
-addressFromHex txt =
-  case Base16.decode (Text.encodeUtf8 txt) of
-    (raw, _) ->
-      case Shelley.deserialiseAddr raw of
-        Just addr -> Just $ AddressShelley addr
-        Nothing -> either (const Nothing) (Just . AddressByron) $ Binary.decodeFull' raw
-
-addressToHex :: Address -> Text
-addressToHex addr =
-  -- Text.decodeUtf8 theoretically can throw an exception but should never
-  -- do so on Base16 encoded data.
-  Text.decodeUtf8 . Base16.encode $
-    case addr of
-      AddressByron ba -> Binary.serialize' ba
-      AddressShelley sa -> Shelley.serialiseAddr sa
-
-
 byronGenSigningKey :: IO SigningKey
 byronGenSigningKey =
     SigningKeyByron . snd <$> runSecureRandom Crypto.keyGen
