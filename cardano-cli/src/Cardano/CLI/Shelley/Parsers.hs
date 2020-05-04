@@ -181,10 +181,12 @@ newtype PrivKeyFile
   = PrivKeyFile FilePath
   deriving (Eq, Show)
 
-newtype TxBodyFile = TxBodyFile FilePath
+newtype TxBodyFile
+  = TxBodyFile FilePath
   deriving (Eq, Show)
 
-newtype TxFile = TxFile FilePath
+newtype TxFile
+  = TxFile FilePath
   deriving (Eq, Show)
 
 
@@ -269,6 +271,7 @@ pStakeAddress =
 
     pDelegationFee :: Parser Lovelace
     pDelegationFee =
+      Lovelace <$>
         Opt.option Opt.auto
           (  Opt.long "delegation-fee"
           <> Opt.metavar "LOVELACE"
@@ -555,6 +558,7 @@ pGenesisCmd =
 
     pInitialSupply :: Parser Lovelace
     pInitialSupply =
+      Lovelace <$>
         Opt.option Opt.auto
           (  Opt.long "supply"
           <> Opt.metavar "LOVELACE"
@@ -687,13 +691,37 @@ pTxOut :: Parser TxOut
 pTxOut = undefined
 
 pTxTTL :: Parser SlotNo
-pTxTTL = undefined
+pTxTTL =
+  SlotNo <$>
+    Opt.option Opt.auto
+      (  Opt.long "ttl"
+      <> Opt.metavar "SLOT_COUNT"
+      <> Opt.help "Time to live (in slots)."
+      )
 
 pTxFee :: Parser Lovelace
-pTxFee = undefined
+pTxFee =
+  Lovelace <$>
+    Opt.option Opt.auto
+      (  Opt.long "fee"
+      <> Opt.metavar "LOVELACE"
+      <> Opt.help "The fee amount in Lovelace."
+      )
 
 pTxBodyFile :: FileDirection -> Parser TxBodyFile
-pTxBodyFile = undefined
+pTxBodyFile fdir =
+  TxBodyFile <$>
+    Opt.strOption
+      (  Opt.long "tx-body-file"
+      <> Opt.metavar "FILEPATH"
+      <> Opt.help (show fdir ++ " filepath of the TxBody.")
+      )
 
 pTxFile :: FileDirection -> Parser TxFile
-pTxFile = undefined
+pTxFile fdir =
+  TxFile <$>
+    Opt.strOption
+      (  Opt.long "tx-file"
+      <> Opt.metavar "FILEPATH"
+      <> Opt.help (show fdir ++ " filepath of the Tx.")
+      )
